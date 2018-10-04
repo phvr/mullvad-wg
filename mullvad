@@ -16,7 +16,8 @@ startup() {
 	TARGET=$2
 	#Checks to see if we already have a start-up server enabled
 	#If so, ENABLED will be set to 'enabled' and break the loop
-    #[[-f /etc/local.d/mullvad-wg]] 
+	ENABLED=disabled
+	[[ -f /etc/local.d/mullvad-wg ]] && ENABLED=enabled && START_UP=$(tail -c 3 /etc/local.d/mullvad-wg)
 
 	# for START_UP in ${AVAILABLE_SERVERS}; do
 	# 	ENABLED=$(systemctl is-enabled wg-quick@mullvad-$START_UP)
