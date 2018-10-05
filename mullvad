@@ -257,6 +257,7 @@ help | -h)
 	echo -e "  list\t\t\t\t List available servers."
 	echo -e "  status\t\t\t Show current status of connection."
 	echo -e "  start-up <on|off> <server>\t Configures active server on system start-up."
+	echo -e "  start-up show\t\t\t Show currently set start-up server."
 	echo -e "  update default\t\t Sets a new default server."
 	echo -e "  update servers\t\t Updates the server list."
 	echo -e "  verify\t\t\t Verify your connection."
