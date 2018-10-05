@@ -233,7 +233,9 @@ update)
 		for i in ${!CODES[*]}; do
 			echo -e "${CODES[$i]}:\t${REGIONS[$i]}" >>/tmp/ms.txt
 		done
-		sort --version-sort /tmp/ms.txt > $HOME/.config/mullvad/mullvad_servers.txt
+                CONFDIR=$HOME/.config/mullvad
+                [[ -d $CONFDIR ]] || mkdir -p $CONFDIR
+		sort --version-sort /tmp/ms.txt > $CONFDIR/mullvad_servers.txt
 		rm /tmp/ms.txt ./mullvad-wg.sh
 		"$0" list
 
