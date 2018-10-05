@@ -17,7 +17,8 @@ startup() {
 	#Checks to see if we already have a start-up server enabled
 	#If so, ENABLED will be set to 'enabled' and break the loop
 	ENABLED=disabled
-	[[ -f /etc/local.d/mullvad-wg ]] && ENABLED=enabled && START_UP=$(tail -c 3 /etc/local.d/mullvad-wg)
+	[[ -f /etc/local.d/mullvad-wg ]] && \
+            ENABLED=enabled && START_UP=$(tail -c 3 /etc/local.d/mullvad-wg)
 
 	# for START_UP in ${AVAILABLE_SERVERS}; do
 	# 	ENABLED=$(systemctl is-enabled wg-quick@mullvad-$START_UP)
@@ -25,8 +26,10 @@ startup() {
 	# done
 
 	if [[ $OPTION == "on" ]]; then
-		[[ $ENABLED != enabled ]] || error "Start-up server already set to: $START_UP"
-		sudo echo -e '#!'"/bin/bash\nwg-quick mullvad-$TARGET" > /etc/local.d/mullvad-wg
+		[[ $ENABLED != enabled ]] || \
+                    error "Start-up server already set to: $START_UP"
+		echo -e '#!'"/bin/bash\nwg-quick mullvad-$TARGET" \
+                    | sudo tee /etc/local.d/mullvad-wg > /dev/null
         sudo chmod +x /etc/local.d/mullvad-wg
 
 	elif [[ $OPTION == "off" ]]; then
@@ -125,7 +128,8 @@ kill_switch() {
 	[[ $2 == all ]] && set "$1" "$AVAILABLE_SERVERS"
 	for ARG in ${2}; do
 		#Check if valid syntax
-		[[ ! $ARG =~ ^([a-z]{2}[0-9]{1,2})$ ]] && echo -e "${RED}Error: invalid input $ARG.${NC}" && continue
+		[[ ! $ARG =~ ^([a-z]{2}[0-9]{1,2})$ ]] && \
+                    echo -e "${RED}Error: invalid input $ARG.${NC}" && continue
 
 		#Security check, see kill_switch_verify function above
 		if [[ "${CURRENT_CONNECTION//*-/}" == "$ARG" ]]; then
