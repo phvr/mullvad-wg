@@ -18,7 +18,7 @@ startup() {
 	#If so, ENABLED will be set to 'enabled' and break the loop
 	ENABLED=disabled
 	[[ -f /etc/local.d/mullvad-wg ]] && \
-            ENABLED=enabled && START_UP=$(tail -c 3 /etc/local.d/mullvad-wg)
+            ENABLED=enabled && START_UP=$(tail -n 1 /etc/local.d/mullvad-wg)
 
 	# for START_UP in ${AVAILABLE_SERVERS}; do
 	# 	ENABLED=$(systemctl is-enabled wg-quick@mullvad-$START_UP)
@@ -28,7 +28,7 @@ startup() {
 	if [[ $OPTION == "on" ]]; then
 		[[ $ENABLED != enabled ]] || \
                     error "Start-up server already set to: $START_UP"
-		echo -e '#!'"/bin/bash\nwg-quick mullvad-$TARGET" \
+		echo -e '#!'"/bin/bash\nwg-quick mullvad-$TARGET\nexit 0\n$TARGET" \
                     | sudo tee /etc/local.d/mullvad-wg > /dev/null
         sudo chmod +x /etc/local.d/mullvad-wg
 
