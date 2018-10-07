@@ -42,25 +42,6 @@ startup() {
 	fi
 	echo -e "${GREEN}Done! Changes will apply on next reboot.${NC}"
 
-
-
-	# if [[ $OPTION == "on" ]]; then
-	# 	[[ $ENABLED != enabled ]] || error "Start-up server already set to: $START_UP"
-	# 	sudo systemctl enable wg-quick@mullvad-"$TARGET" &>/dev/null
-
-	# elif [[ $OPTION == "off" ]]; then
-	# 	[[ $ENABLED == enabled ]] || error "No start-up server is set."
-	# 	sudo systemctl disable wg-quick@mullvad-"$START_UP" &>/dev/null
-
-	# elif [[ $OPTION == "show" ]]; then
-	# 	[[ $ENABLED == enabled ]] || START_UP=EMPTY
-	# 	echo -e "${GREEN}Current start-up is set to: ${START_UP}${NC}"
-	# 	exit 0
-
-	# else
-	# 	error "Bad input."
-	# fi
-	# echo -e "${GREEN}Done! Changes will apply on next reboot.${NC}"
 }
 
 verify_connection() {
