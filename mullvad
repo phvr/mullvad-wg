@@ -28,7 +28,7 @@ startup() {
 	if [[ $OPTION == "on" ]]; then
 		[[ $ENABLED != enabled ]] || \
                     error "Start-up server already set to: $START_UP"
-		echo -e '#!'"/bin/bash\nwg-quick mullvad-$TARGET\nexit 0\n$TARGET" \
+		echo -e '#!'"/bin/bash\nwg-quick up mullvad-$TARGET\nexit 0\n$TARGET" \
                     | sudo tee /etc/local.d/mullvad-wg > /dev/null
         sudo chmod +x /etc/local.d/mullvad-wg
 
