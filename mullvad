@@ -11,30 +11,26 @@ error() {
 }
 
 startup() {
-	local TARGET OPTION START_UP ENABLED
+	local TARGET OPTION START_UP ENABLED SCRIPT
 	OPTION=$1
 	TARGET=$2
+        SCRIPT="/etc/local.d/mullvad-wg.start"
 	#Checks to see if we already have a start-up server enabled
 	#If so, ENABLED will be set to 'enabled' and break the loop
 	ENABLED=disabled
-	[[ -f /etc/local.d/mullvad-wg ]] && \
-            ENABLED=enabled && START_UP=$(tail -n 1 /etc/local.d/mullvad-wg)
-
-	# for START_UP in ${AVAILABLE_SERVERS}; do
-	# 	ENABLED=$(systemctl is-enabled wg-quick@mullvad-$START_UP)
-	# 	[[ $ENABLED == disabled ]] || break
-	# done
+	[[ -f $SCRIPT ]] && \
+            ENABLED=enabled && START_UP=$(tail -n 1 $SCRIPT)
 
 	if [[ $OPTION == "on" ]]; then
 		[[ $ENABLED != enabled ]] || \
                     error "Start-up server already set to: $START_UP"
 		echo -e '#!'"/bin/bash\nwg-quick up mullvad-$TARGET\nexit 0\n$TARGET" \
-                    | sudo tee /etc/local.d/mullvad-wg > /dev/null
-        sudo chmod +x /etc/local.d/mullvad-wg
+                    | sudo tee $SCRIPT  > /dev/null
+        sudo chmod +x $SCRIPT
 
 	elif [[ $OPTION == "off" ]]; then
 		[[ $ENABLED == enabled ]] || error "No start-up server is set."
-		sudo rm /etc/local.d/mullvad-wg
+		sudo rm $SCRIPT
 
 	elif [[ $OPTION == "show" ]]; then
 		[[ $ENABLED == enabled ]] || START_UP=EMPTY
