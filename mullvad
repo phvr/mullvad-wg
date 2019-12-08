@@ -191,7 +191,7 @@ start-up)
 
 status)
 	[[ $CURRENT_CONNECTION ]] || error "not connected."
-	sudo wg
+	sudo wg show
 	;;
 
 update)
